@@ -95,8 +95,13 @@ def drive(distance, command, speed, angle):
             (current_pos.x - start_pos.x)**2 + (current_pos.y - start_pos.y)**2)
         # rospy.loginfo("current distance = %f", current_distance)
         rospy.sleep(0.1)
-
-    speed_cmd.value = 0
+        
+    if speed > 0:
+        val_sign = 1
+    else:
+        val_sign = -1  
+        
+    speed_cmd.value = val_sign * 0.01  #This value should have the same sign of the previously value to avoid the return effect of the car
     pub_speed.publish(speed_cmd)
     is_active = False
     current_pos = last_odom.pose.pose.position
